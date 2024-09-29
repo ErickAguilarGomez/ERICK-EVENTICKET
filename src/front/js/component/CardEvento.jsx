@@ -7,7 +7,7 @@ export const CardEvento = () => {
   const { store, actions } = useContext(Context);
 
   const handleAddFavourite = (event_id) => {
-    actions.addFavourite(event_id); // Llama a la acción addFavourite del flux
+    actions.addFavourite(event_id);
   };
 
   useEffect(() => {

@@ -4,6 +4,10 @@ import Swal from "sweetalert2";
 import '../../styles/creacion-evento.css';
 
 const CrearEvento = () => {
+    const preset_name = "yu1h90st";
+    const cloud_name = "drlqmol4c"; 
+    const [image, setImage] = useState(''); 
+    const [loading, setLoading] = useState(false);
     const { store, actions } = useContext(Context);
     const [formData, setFormData] = useState({
         title: "",
@@ -18,10 +22,6 @@ const CrearEvento = () => {
         administrator_id: store.admin.id
     });
 
-    const preset_name = "yu1h90st";
-    const cloud_name = "drlqmol4c"; 
-    const [image, setImage] = useState(''); 
-    const [loading, setLoading] = useState(false);
 
     const uploadImage = async (e) => {
         const files = e.target.files;

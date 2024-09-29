@@ -398,13 +398,13 @@ def read_tickets_by_user():
         user_logged = User.query.get(current_user_id)
 
         if administrator:
-            tickets = Ticket.query.all()  # Si es administrador, obtiene todos los tickets
+            tickets = Ticket.query.all()
             if tickets:
                 return jsonify([ticket.serialize() for ticket in tickets]), 200
             else:
                 return jsonify({"error": "No tickets found"}), 404
         elif user_logged:
-            tickets = Ticket.query.filter_by(user_id=current_user_id).all()  # Solo obtiene los tickets del usuario autenticado
+            tickets = Ticket.query.filter_by(user_id=current_user_id).all()
             if tickets:
                 return jsonify([ticket.serialize() for ticket in tickets]), 200
             else:

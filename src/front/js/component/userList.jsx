@@ -1,24 +1,28 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import '../../styles/lista-evento.css'
+import Swal from "sweetalert2";
 
 
 const UserList = () => {
+  const info = ["Nombre", "Apellido", "Email", "Contraseña", "Celular", "Acciones"]
   const { store, actions } = useContext(Context);
-
-  useEffect(() => {
-    actions.getUsers(); // Llamar al fetch para obtener los usuarios
-  }, []);
-
-  // Acceder a los usuarios del store
-  const users = store.users || []; // Asegurarse de que users esté definido como un array
+  const users = store.users || [];
 
   const handleDelete = async (userId) => {
     const success = await actions.deleteUser(userId);
     if (success) {
-      console.log("User deleted successfully");
+      Swal.fire({
+        icon: 'success',
+        title: "User deleted successfully",
+        confirmButtonText: 'Ok'
+      });
     } else {
-      console.error("Failed to delete user");
+      Swal.fire({
+        icon: 'error',
+        title: "Failed to delete user",
+        confirmButtonText: 'Ok'
+      });
     }
   };
 
@@ -30,16 +34,13 @@ const UserList = () => {
         <table className="table table-striped table-hover">
           <thead className="table-info">
             <tr>
-              <th scope="col">Nombre</th>
-              <th scope="col">Apellido</th>
-              <th scope="col">Email</th>
-              <th scope="col">Contraseña</th>
-              <th scope="col">Celular</th>
-              <th scope="col" className="text-start">Acciones</th>
+              {info.length > 0 && info.map((inf, index) =>
+                <th scope="col" key={index}>{inf} </th>
+              )}
             </tr>
           </thead>
           <tbody >
-            {users.map((user) => (
+            {users.length > 0 && users.map((user) => (
               <tr key={user.id}>
                 <td>{user.name}</td>
                 <td>{user.last_name}</td>

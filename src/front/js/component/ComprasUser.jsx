@@ -4,12 +4,11 @@ import { Context } from '../store/appContext';
 const ComprasUser = () => {
     const { store, actions } = useContext(Context);
     const [tickets, setTickets] = useState([]);
-    const [error, setError] = useState(null);
     const { currentUser } = store;
-    const events=JSON.parse(localStorage.getItem("events"))
-  
+    const events = JSON.parse(localStorage.getItem("events"))
+
     useEffect(() => {
-        if(currentUser){
+        if (currentUser) {
             const fetchTickets = async () => {
                 const fetchedTickets = await actions.getTicketsByUser();
                 if (fetchedTickets && fetchedTickets.length > 0) {
@@ -23,20 +22,14 @@ const ComprasUser = () => {
 
     }, [currentUser]);
 
-    if (error) {
-        return <div className="alert alert-danger">{error}</div>;
-    }
+    if (tickets.length <= 0) return <div className="text-center text-black bg-danger bg-gradient">No tienes Tickets por mostrar</div>;
 
-    if (tickets.length === 0) {
-        return <div className="text-center">Cargando tickets...</div>;
-    }
 
     return (
         <div className="container mt-2">
             <h1 className="text-center fs-1 text-primary">Mis Compras</h1>
             {tickets.map((ticket) => {
                 const event = events.find(evento => evento.id === ticket.event_id);
-                console.log(event);
                 return (
                     <div className="card mb-3" key={ticket.numero_ticket}>
                         <div className="card-header bg-primary text-white">
@@ -44,7 +37,7 @@ const ComprasUser = () => {
                         </div>
                         <div className="card-body">
                             <h6 className="card-subtitle mb-2 text-muted">Evento ID: {ticket.event_id}</h6>
-                            <h5 className='fs-bolder text-primary'>Evento: {event.title?event.title:"None"}</h5>
+                            <h5 className='fs-bolder text-primary'>Evento: {event.title ? event.title : "None"}</h5>
                             <p className='card-text'>
                                 <strong className="text-primary">Fecha:</strong> {event.date}<br />
                                 <strong className="text-primary">Hora:</strong> {event.time}<br />

@@ -43,6 +43,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 					const data = await response.json();
 					setStore({ users: data });
+					console.log("Usuarios Obtenidos de manera exitosa")
 					return "Usuarios Obtenidos de manera exitosa";
 				} catch (error) {
 					console.error("Error al obtener los usuarios", error);
@@ -65,6 +66,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 						console.log("error " + data.message)
 						return false
 					}
+					console.log(data)
+					// setStore({users:[...users]})
 					return true;
 				} catch (error) {
 					console.error("Error en la solicitud para crear usuario:", error);
