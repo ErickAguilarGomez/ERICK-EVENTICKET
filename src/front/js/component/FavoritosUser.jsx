@@ -5,12 +5,11 @@ import "../../styles/CardEvento.css";
 
 const FavoritosUser = () => {
     const { store, actions } = useContext(Context);
+    const favourites = store.favorites || [];
 
     useEffect(() => {
         actions.getFavourites();
     }, []);
-
-    const favourites = store.favorites || [];
 
     return (
         <div className="container py-1">

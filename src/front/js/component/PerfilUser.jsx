@@ -6,8 +6,6 @@ import Swal from "sweetalert2";
 const PerfilUser = () => {
   const { store, actions } = useContext(Context);
   const { currentUser } = store;
-
-  // Estado para almacenar los datos del perfil del usuario
   const [profileData, setProfileData] = useState({
     name: "",
     last_name: "",
@@ -16,6 +14,15 @@ const PerfilUser = () => {
     phone: "",
     email: ""
   });
+
+  const formFields = [
+    { label: "Nombre", name: "name", type: "text", placeholder: "Nombre", value: profileData.name },
+    { label: "Apellidos", name: "last_name", type: "text", placeholder: "Apellido Paterno", value: profileData.last_name },
+    { label: "F. de Nac", name: "date_of_birth", type: "date", placeholder: "Fecha de Nacimiento", value: profileData.date_of_birth },
+    { label: "DNI", name: "dni", type: "text", placeholder: "DNI", value: profileData.dni },
+    { label: "Celular", name: "phone", type: "text", placeholder: "Celular", value: profileData.phone },
+    { label: "E-mail", name: "email", type: "email", placeholder: "Correo Electrónico", value: profileData.email, disabled: true }
+  ];
 
   useEffect(() => {
     if (currentUser) {
@@ -49,94 +56,35 @@ const PerfilUser = () => {
     });
   };
 
+
   return (
-    <div className="container " >
-      <h2 className="mb-4">Datos Personales</h2>
-      <form>
-        {/* Fila para Nombre, Apellido Paterno y Apellido Materno */}
-        <div className="row mb-4">
-          <div className="col-md-4 mb-3">
-            <label htmlFor="name">Nombre</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Nombre"
-              name="name"
-              // value={profileData.nombre}
-              value={profileData.name}
-              onChange={handleChange}
-            />
+    <>
+      <div className="container justify-content-center">
+        <h2 className="mb-4 w-100 text-center">Datos Personales</h2>
+        <form className='d-flex flex-wrap w-100 justify-content-center'>
+          {formFields.length > 0 && formFields.map((data, index) => (
+              <div className="m-3 w-25" key={index}>
+                <label className='text-nowrap' htmlFor={data.name}>{data.label}</label>
+                <input
+                  type={data.type}
+                  className="form-control"
+                  placeholder={data.placeholder}
+                  name={data.name}
+                  value={data.value}
+                  onChange={handleChange}
+                  disabled={data.disabled || false}
+                />
+              </div>
+          ))}
+          <div className='w-100 d-flex justify-content-center'>
+          <button type="button" className="btn btn-primary" onClick={handleUpdateUser}>
+            Actualizar
+          </button>
           </div>
-          <div className="col-md-4 mb-3">
-            <label htmlFor="last_name">Apellidos</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Apellido Paterno"
-              name="last_name"
-              // value={profileData.apellidoPaterno}
-              value={profileData.last_name}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="col-md-4 mb-3">
-            <label htmlFor="date_of_birth">F. de Nac</label>
-            <input
-              type="date"
-              className="form-control"
-              placeholder="Fecha de Nacimiento"
-              name="date_of_birth"
-              value={profileData.date_of_birth}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-
-        {/* Fila para DNI, Celular y Correo Electrónico */}
-        <div className="row mb-4">
-          <div className="col-md-4 mb-3">
-            <label htmlFor="dni">DNI</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="DNI"
-              name="dni"
-              value={profileData.dni}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="col-md-4 mb-3">
-            <label htmlFor="phone">Celular</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Celular"
-              name="phone"
-              value={profileData.phone}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="col-md-4 mb-3">
-            <label htmlFor="email">E-mail</label>
-            <input
-              type="email"
-              className="form-control"
-              placeholder="Correo Electrónico"
-              name="email"
-              //SE SUPONE EL CORREO NO SE PUEDE MODIFICAR ASI QUE SU EDICION DEBE ESTAR BLOQUEADA
-              value={profileData.email}
-              disabled
-            />
-          </div>
-        </div>
-
-        {/* Botón para guardar los cambio o añadir alguna info del user */}
-        <button type="button" className="btn btn-primary" onClick={handleUpdateUser}>
-          Actualizar
-        </button>
-      </form>
-    </div>
+        </form>
+      </div>
+    </>
   );
-};
+}
 
 export default PerfilUser;

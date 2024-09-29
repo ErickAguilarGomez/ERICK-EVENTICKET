@@ -11,7 +11,7 @@ import Swal from "sweetalert2";
 export const LoginAdmin = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const { store, actions } = useContext(Context); // Accede al store y actions desde el contexto
+    const { store, actions } = useContext(Context); 
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -63,9 +63,6 @@ export const LoginAdmin = () => {
                         <h2 className="fw-bold text-center py-3 text-primary text-info-emphasis fw-light display-6">
                             Bienvenido Administrador
                         </h2>
-
-                        {/* Mostrar mensaje de error si hay */}
-                        {store.adminError && <div className="alert alert-danger">{store.adminError}</div>}
 
                         <form onSubmit={handleSubmit}>
                             <div className="mb-4">

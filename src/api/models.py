@@ -57,7 +57,7 @@ class Event(db.Model):
     title = db.Column(db.String(255), nullable=True)
     description = db.Column(db.Text, nullable=False)
     date = db.Column(db.Date, nullable=False)
-    time = db.Column(db.Time, nullable=False)  # Nuevo campo para la hora del evento
+    time = db.Column(db.Time, nullable=False)
     location = db.Column(db.String(255), nullable=False)
     category = db.Column(db.String(255), nullable=False)
     image_url = db.Column(db.String(255))

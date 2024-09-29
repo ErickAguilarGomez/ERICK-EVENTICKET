@@ -5,13 +5,9 @@ import '../../styles/lista-evento.css'
 
 const EventList = () => {
   const { store, actions } = useContext(Context);
-
-  useEffect(() => {
-    actions.getEvents(); // Llamar al fetch para obtener los eventos
-  }, []);
-
-  // Acceder a los eventos del store
   const events = store.events || [];
+  const info = ["Evento", "Lugar", "Fecha", "Aforo", "Precio", "Acciones"];
+
 
   const handleDelete = async (eventId) => {
     const success = await actions.deleteEvent(eventId);
@@ -21,6 +17,10 @@ const EventList = () => {
       console.error("Failed to delete event");
     }
   };
+
+  useEffect(() => {
+    actions.getEvents(); 
+  }, []);
 
 
   return (
@@ -32,12 +32,7 @@ const EventList = () => {
         <table className="table table-striped table-hover">
           <thead className="table-primary">
             <tr>
-              <th scope="col">Evento</th>
-              <th scope="col">Lugar</th>
-              <th scope="col">Fecha</th>
-              <th scope="col">Aforo</th>
-              <th scope="col">Precio</th>
-              <th scope="col">Acciones</th>
+              {info.length>0 && info.map((data,index)=><th key={index} scope="col">{data}</th>)} 
             </tr>
           </thead>
           <tbody>

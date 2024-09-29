@@ -3,7 +3,6 @@ import "../../styles/SideBar.css";
 import '../../styles/navbar.css';
 
 const SidebarUser = ({ onViewChange }) => {
-
     const [isExpanded, setIsExpanded] = useState(false);
 
     const toggleSidebar = () => {

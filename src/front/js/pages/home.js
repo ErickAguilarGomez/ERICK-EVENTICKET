@@ -1,5 +1,5 @@
 import React from "react";
-import { Carrusel } from "./carrusel-imagenes"
+import { Carrusel } from "../component/carrusel-imagenes.js"
 import { CardEvento } from "../component/CardEvento.jsx"
 
 import "../../styles/home.css";

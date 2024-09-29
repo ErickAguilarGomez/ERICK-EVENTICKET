@@ -3,16 +3,16 @@ import logo from "../../img/logito.png";
 import people from "../../img/people.png";
 import fondo from "../../img/fondoazul.jpg";
 import { Link, useNavigate } from "react-router-dom";
-import { Context } from "../store/appContext"; // Importar el contexto global
+import { Context } from "../store/appContext";
 import "../../styles/login.css";
 import Swal from "sweetalert2";
 
 
 export const Login = () => {
-    const { actions,store } = useContext(Context); // Acceder a las acciones del flux
-    const [email, setEmail] = useState(""); // Estado para el email
-    const [password, setPassword] = useState(""); // Estado para la contraseña
-    const navigate = useNavigate(); // Para redirigir después del login
+    const { actions,store } = useContext(Context); 
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     // Manejar el envío del formulario
     const handleSubmit = async (e) => {
@@ -42,17 +42,11 @@ export const Login = () => {
 
 
     return (
-        <div
-            style={{
-                backgroundImage: `url(${fondo})`,
+        <div className="d-flex justify-content-center align-items-center vh-100 bg-center"
+            style={{backgroundImage: `url(https://res.cloudinary.com/da2fsfcsn/image/upload/v1727554258/fondoazul_vu0swj.webp)`,
                 backgroundColor: "#4038E6",
-                height: "100vh",
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center'
             }}
         >
             <div className="container w-75 mt-5 shadow">
