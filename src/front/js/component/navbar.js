@@ -48,7 +48,7 @@ export const Navbar = () => {
             <span className="navbar-toggler-icon"></span>
           </button>
 
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <div className="collapse navbar-collapse flex-wrap flex-column flex-lg-row" id="navbarSupportedContent">
             <div className="search-container"> {/* Centro de búsqueda */}
               <form className="d-flex">
 
@@ -85,7 +85,7 @@ export const Navbar = () => {
 
 
 
-            <div className="d-flex justify-content-end">
+            <div className="d-flex justify-content-end  w-auto ">
               <ul className="navbar-nav mb-2 mb-lg-0">
                 {!accessToken && !adminToken ? (
                   <>
