@@ -14,7 +14,7 @@ export const Login = () => {
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    // Manejar el envío del formulario
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const success = await actions.loginUser(email, password);
@@ -36,9 +36,9 @@ export const Login = () => {
     };
 
     useEffect(()=>{
-        if(store.admin!==false){navigate("/demo");}
-        if(store.currentUser!==false){navigate("/");}
-    },[store.admin,store.currentUser])
+        if(store.adminToken ){navigate("/demo")}
+        if(store.accessToken){navigate("/user")}
+    },[store.adminToken,store.accessToken])
 
 
     return (

@@ -9,16 +9,18 @@ import { useNavigate } from 'react-router-dom';
 
 const DashboardUser = () => {
     const [activeView, setActiveView] = useState('profile');
-    const {store}=useContext(Context)
+    const {store,actions}=useContext(Context)
     const navigate=useNavigate()
     const handleViewChange = (view) => {
         setActiveView(view);
     };
     
     useEffect(()=>{
-        if(!store.currentUser){navigate("/")}
-        if(store.admin){navigate("/demo")}
+        if(!localStorage.getItem("access_token")){navigate("/")}
+        if(localStorage.getItem("adminToken")){navigate("/demo")}
     },[store.currentUser])
+
+
 
     return (
         <div className="wrapper">

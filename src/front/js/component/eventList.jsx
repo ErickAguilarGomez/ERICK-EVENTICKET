@@ -19,7 +19,7 @@ const EventList = () => {
   };
 
   useEffect(() => {
-    actions.getEvents(); 
+    actions.getEvents();
   }, []);
 
 
@@ -27,12 +27,11 @@ const EventList = () => {
     <div className="container mt-4">
       <h1 className="text-start">Lista de Eventos</h1>
       <hr />
-      {/* Aqui empieza el Contenedor responsivo de la tabla */}
       <div className="table-responsive">
         <table className="table table-striped table-hover">
           <thead className="table-primary">
             <tr>
-              {info.length>0 && info.map((data,index)=><th key={index} scope="col">{data}</th>)} 
+              {info.length > 0 && info.map((data, index) => <th key={index} scope="col">{data}</th>)}
             </tr>
           </thead>
           <tbody>
