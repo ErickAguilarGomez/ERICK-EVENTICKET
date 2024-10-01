@@ -1,3 +1,5 @@
+
+
 import React, { useContext, useEffect, useState } from "react";
 import logo from "../../img/logito.png";
 import people from "../../img/people.png";
@@ -7,24 +9,57 @@ import { Context } from "../store/appContext";
 import "../../styles/login.css";
 import Swal from "sweetalert2";
 
-
 export const Login = () => {
-    const { actions,store } = useContext(Context); 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const { actions, store } = useContext(Context);
     const navigate = useNavigate();
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [data, setData] = useState({
+        email: "",
+        password: ""
+    });
 
+    const handleDataUser = (e) => {
+        setData({ ...data, [e.target.name]: e.target.value });
+    };
 
-    const handleSubmit = async (e) => {
+    const handleIsAdmin = () => {
+        setIsAdmin(!isAdmin);
+    };
+
+    const handleAdminLogin = async (e) => {
         e.preventDefault();
-        const success = await actions.loginUser(email, password);
+        if(isAdmin){
+        const success = await actions.loginAdmin(data.email, data.password);
+
+        if (success) {
+            Swal.fire({
+                title: 'Éxito',
+                text: 'Inicio de sesión exitoso',
+                icon: 'success',
+            });
+            navigate("/demo");
+        } else {
+            Swal.fire({
+                title: 'Error',
+                text: 'Error al iniciar sesión',
+                icon: 'error',
+            });
+        }
+    }
+    };
+
+    const handleUserLogin = async (e) => {
+        if(!isAdmin){
+        e.preventDefault();
+        const success = await actions.loginUser(data.email, data.password);
+
         if (success) {
             Swal.fire({
                 icon: 'success',
                 title: success,
                 confirmButtonText: 'Ok'
             });
-                navigate("/");
+            navigate("/");
         } else {
             Swal.fire({
                 icon: 'error',
@@ -33,20 +68,26 @@ export const Login = () => {
                 confirmButtonText: 'Ok'
             });
         }
+    }
     };
 
-    useEffect(()=>{
-        if(store.adminToken ){navigate("/demo")}
-        if(store.accessToken){navigate("/user")}
-    },[store.adminToken,store.accessToken])
-
+    useEffect(() => {
+        if (store.accessToken) navigate("/demo");
+        if (store.adminToken) navigate("/");
+    }, [store.adminToken, store.accessToken]);
 
     return (
-        <div className="d-flex justify-content-center align-items-center vh-100 bg-center"
-            style={{backgroundImage: `url(https://res.cloudinary.com/da2fsfcsn/image/upload/v1727554258/fondoazul_vu0swj.webp)`,
+        <div
+            style={{
+                backgroundImage: `url(${fondo})`,
                 backgroundColor: "#4038E6",
+                height: "100vh",
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
             }}
         >
             <div className="container w-75 mt-5 shadow">
@@ -64,47 +105,92 @@ export const Login = () => {
                             <img src={logo} className="rounded-pill" width="40" alt="" />
                         </div>
 
-                        <h2 className="fw-bold text-center py-3 text-primary text-info-emphasis fw-light display-6">
-                            Bienvenidos a Eventicket
-                        </h2>
+                        {!isAdmin ? (
+                            <>
+                                <h2 className="fw-bold text-center py-3 text-primary text-info-emphasis fw-light display-6">
+                                    Bienvenidos a Eventicket
+                                </h2>
+                                <form onSubmit={handleUserLogin}>
+                                    <div className="mb-4">
+                                        <label htmlFor="email" className="form-label">Email</label>
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            className="form-control login"
+                                            value={data.email}
+                                            onChange={handleDataUser}
+                                            required
+                                        />
+                                    </div>
 
-                        <form onSubmit={handleSubmit}>
-                            <div className="mb-4">
-                                <label htmlFor="email" className="form-label">Email</label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    className="form-control login"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)} // Actualizar estado de email
-                                    required
-                                />
-                            </div>
+                                    <div className="mb-4">
+                                        <label htmlFor="password" className="form-label">Password</label>
+                                        <input
+                                            type="password"
+                                            name="password"
+                                            className="form-control login"
+                                            value={data.password}
+                                            onChange={handleDataUser}
+                                            required
+                                        />
+                                    </div>
 
-                            <div className="mb-4">
-                                <label htmlFor="password" className="form-label">Password</label>
-                                <input
-                                    type="password"
-                                    name="password"
-                                    className="form-control login"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)} // Actualizar estado de contraseña
-                                    required
-                                />
-                            </div>
-                            <div className="d-grid">
-                                <button type="submit" className="btn btn-primary">Iniciar Sesión</button>
-                            </div>
-                            <div className="my-3">
-                                <Link to="/registro">
-                                    Aún no tienes cuenta? Regístrate aqui.
-                                </Link>
-                                <br />
-                                <Link to="/login-admin">Ingresar como Administrador</Link>
-                                <br />
-                                <Link to="/contrasena">¿Olvidaste tu contraseña?</Link>
-                            </div>
-                        </form>
+                                    <div className="d-grid">
+                                        <button type="submit" className="btn btn-primary">Iniciar Sesión</button>
+                                    </div>
+
+                                    <div className="my-3 d-flex align-items-center justify-content-center flex-column text-center">
+                                        <Link to="/registro">
+                                            Aún no tienes cuenta? Regístrate aqui.
+                                        </Link>
+                                        <div onClick={handleIsAdmin} className="linkTo">
+                                            Ingresar como Administrador
+                                        </div>
+                                        <Link to="/contrasena">
+                                            ¿Olvidaste tu contraseña?
+                                        </Link>
+                                    </div>
+                                </form>
+                            </>
+                        ) : (
+                            <>
+                                <h2 className="fw-bold text-center py-3 text-primary text-info-emphasis fw-light display-6">
+                                    Bienvenido administrador
+                                </h2>
+                                <form onSubmit={handleAdminLogin}>
+                                    <div className="mb-4">
+                                        <label htmlFor="email" className="form-label">Email</label>
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            className="form-control login"
+                                            value={data.email}
+                                            onChange={handleDataUser}
+                                            required
+                                        />
+                                    </div>
+
+                                    <div className="mb-4">
+                                        <label htmlFor="password" className="form-label">Password</label>
+                                        <input
+                                            type="password"
+                                            name="password"
+                                            className="form-control login"
+                                            value={data.password}
+                                            onChange={handleDataUser}
+                                            required
+                                        />
+                                    </div>
+
+                                    <div className="d-flex align-items-center justify-content-center flex-column text-center">
+                                        <button type="submit" className="btn btn-primary mb-4">Iniciar Sesión</button>
+                                        <div onClick={handleIsAdmin} className="linkTo">
+                                            Iniciar Sesión como Usuario
+                                        </div>
+                                    </div>
+                                </form>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

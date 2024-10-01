@@ -13,7 +13,6 @@ import { Registro } from "./pages/Registro.jsx";
 import { RecuperarContraseña } from "./pages/RecuperarContraseña.jsx";
 import { RestablecerContraseña } from "./pages/RestablecerContraseña.jsx";
 
-import { LoginAdmin } from "./pages/login-admin.jsx";
 import { Demo } from "./pages/demo";
 import EditarEvento from "./component/editarEvento.jsx"
 
@@ -39,7 +38,6 @@ const Layout = () => {
                         <Route element={<Home />} path="/" />
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<Login />} path="/login" />
-                        <Route element={<LoginAdmin />} path="/login-admin" />
                         <Route element={<Registro />} path="/registro" />
                         <Route element={<DetalleEvento />} path="/detalle/:eventId" />
                         <Route element={<DashboardUser />} path="/user" />
