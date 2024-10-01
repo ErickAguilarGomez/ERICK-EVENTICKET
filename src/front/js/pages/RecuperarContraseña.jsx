@@ -41,9 +41,10 @@ export const RecuperarContraseña = () => {
     }
 
     useEffect(()=>{
-        if(store.adminToken ){navigate("/demo")}
-        if(store.accessToken){navigate("/user")}
-    },[store.adminToken,store.accessToken])
+        if(store.admin!==false){navigate("/demo");}
+        if(store.currentUser!==false){navigate("/");}
+    },[store.admin,store.currentUser])
+
 
     return (
         <div className="container-fluid d-flex justify-content-center align-items-center vh-100">

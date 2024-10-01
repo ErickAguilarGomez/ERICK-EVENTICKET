@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import '../../styles/creacion-evento.css';
 import { useParams, useNavigate } from "react-router-dom";
 
-const EditarEvento=()=>{    
+const EditarEvento = () => {
     const { store, actions } = useContext(Context);
     const { id } = useParams(); 
     const navigate = useNavigate(); 
@@ -18,27 +18,25 @@ const EditarEvento=()=>{
         date: "",
         price: "0",
         time: "",
-        administrator_id:""
+        administrator_id:store.admin.id
     });
     const preset_name = "yu1h90st";  // Nombre del preset de carga
     const cloud_name = "drlqmol4c";  // Nombre del cloud en Cloudinary
     const [image, setImage] = useState('');  // Estado para guardar la URL de la imagen subida
     const [loading, setLoading] = useState(false);  // Estado para mostrar si la imagen está cargando
 
-
     useEffect(() => {
         if(id){
         const fetchEvent = async () => {
             const event = await actions.getEventById(id); 
             if (event) {
-                setFormData(event);
-
+                setFormData({
+                    ...event,
+                    category: event.category || "Seleccionar categoría"
+                });
             }
         };
         fetchEvent();
-        }
-        if(store.admin){
-            setFormData({...formData,administrator_id:store.admin.id})
         }
     }, [id]);
 

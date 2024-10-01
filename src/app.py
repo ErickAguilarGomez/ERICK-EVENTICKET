@@ -70,9 +70,9 @@ def handle_invalid_usage(error):
 # generate sitemap with all your endpoints
 
 
-@app.route('/<int:event_id>')
-def sitemap(event_id):
-    if ENV == "development" and event_id==1:
+@app.route('/')
+def sitemap():
+    if ENV == "development":
         return generate_sitemap(app)
     return send_from_directory(static_file_dir, 'index.html')
 

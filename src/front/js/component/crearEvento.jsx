@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
 import Swal from "sweetalert2"; 
 import '../../styles/creacion-evento.css';
@@ -109,7 +109,7 @@ const CrearEvento = () => {
                 date: "",
                 price: "0",
                 time: "",
-                administrator_id:store.admin.id
+                administrator_id: 1
             })
             setImage("")
             } else {
