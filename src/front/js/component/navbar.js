@@ -6,7 +6,7 @@ import loguito2 from "../../img/logito2.png";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
-  const { accessToken, adminToken } = store;
+  const { currentUser, admin } = store;
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -26,7 +26,7 @@ export const Navbar = () => {
   };
 
   useEffect(() => {
-  }, [adminToken, accessToken]);
+  }, [currentUser, admin]);
 
   return (
     <>
@@ -87,7 +87,7 @@ export const Navbar = () => {
 
             <div className="d-flex justify-content-end">
               <ul className="navbar-nav mb-2 mb-lg-0">
-                {!accessToken && !adminToken ? (
+                {!currentUser && !admin ? (
                   <>
                     <li className="nav-item">
                       <Link to="/login" className="nav-link">
@@ -102,14 +102,14 @@ export const Navbar = () => {
                   </>
                 ) : (
                   <div className="d-flex flex-row align-items-center gap-3">
-                    {accessToken && !adminToken && (
+                    {currentUser && !admin && (
                       <li className="nav-item">
                         <Link to="/user" className="nav-link">
                           <button className="btn btn-outline-info">Mi Perfil</button>
                         </Link>
                       </li>
                     )}
-                    {!accessToken && adminToken && (
+                    {!currentUser && admin && (
                       <li className="nav-item">
                         <Link to="/demo" className="nav-link">
                           <button className="btn btn-outline-info">Mi panel</button>

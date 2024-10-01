@@ -4,9 +4,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			events: [],
 			users: [],
 			ticket: [],
-			currentUser: null,
+			currentUser: JSON.parse(localStorage.getItem('currentUser')) || false,
 			accessToken: localStorage.getItem("access_token") || false,
-			admin: null,
+			admin: JSON.parse(localStorage.getItem("admin")) || false,
 			adminToken: localStorage.getItem("adminToken") || false,
 			favourites: [{ user_id: "", event_id: "" }],
 			favorites: [],
@@ -22,6 +22,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 					const events = await response.json();
 					setStore({ events: events });
+					localStorage.setItem("events",JSON.stringify(events))
+					console.log("Eventos obtenidos exitosamente:", events);
 					return "Eventos obtenidos exitosamente"
 				} catch (error) {
 					console.error("Error en la llamada fetch de eventos:", error);
@@ -40,7 +42,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						}
 					});
 					const data = await response.json();
-					if (!response.ok) { console.log("error al obtener usuario" + response.msg) }
 					setStore({ users: data });
 					console.log("Usuarios Obtenidos de manera exitosa")
 					return "Usuarios Obtenidos de manera exitosa";
@@ -75,9 +76,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			deleteUser: async (userId) => {
-				const adminToken = localStorage.getItem("adminToken")
-				console.log(adminToken)
-
+				let adminToken = localStorage.getItem("adminToken")
 				console.log(userId)
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/users/${userId}`, {
@@ -116,6 +115,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						return false
 					}
 					localStorage.setItem("access_token", data.access_token);
+					localStorage.setItem("currentUser", JSON.stringify(data));
 					setStore({ currentUser: data, accessToken: data.access_token })
 					return "Usuario logueado exitosamente";
 				} catch (error) {
@@ -124,34 +124,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			getDataUser: async () => {
-				try {
-					const userToken = localStorage.getItem("access_token");
-					if (!userToken) {
-						console.error("Token no encontrado");
-						return;
-					}
-
-					console.log(userToken);
-
-					const request = await fetch(process.env.BACKEND_URL + '/api/user', {
-						method: 'GET',
-						headers: {
-							'Content-Type': 'application/json',
-							'Authorization': `Bearer ${userToken}`,
-						},
-					});
-
-					if (!request.ok) {
-						console.log(`Error en la solicitud: ${request.status}`);
-					}
-
-					const response = await request.json();
-					setStore({ currentUser: response.user_data });
-				} catch (error) {
-					console.log(error);
-				}
-			},
 
 			// Acción para actualizar la información del usuario
 			updateUser: async (user_id, updatedData) => {
@@ -167,6 +139,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 					if (response.ok) {
 						const data = await response.json();
+						localStorage.setItem("currentUser", JSON.stringify(data))
 						setStore({ currentUser: data });
 						console.log("Usuario actualizado exitosamente", data);
 					} else {
@@ -195,6 +168,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						return false
 					}
 					localStorage.setItem("adminToken", data.access_token);
+					localStorage.setItem("admin", JSON.stringify(data));
 					setStore({ admin: data, adminToken: data.access_token })
 					return "Administrador logueado exitosamente";
 				} catch (error) {
@@ -203,43 +177,24 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			getDatadmin: async () => {
-				try {
-					const adminToken = localStorage.getItem("adminToken")
-					const request = await fetch(process.env.BACKEND_URL + "/api/datadmin", {
-						method: "GET",
-						headers: {
-							"Content-Type": "application/json",
-							"Authorization": `Bearer ${adminToken}`
-						},
-					})
-					const response = await request.json()
-					if (!request.ok) { console.log(response) }
-					setStore({ admin: response.data })
-					console.log("data de admin obtenida de manera exitosa")
-				}
-				catch (error) {
-					console.log(error)
-				}
-			},
 
 			logout: () => {
-				const store = getStore()
-				if (store.accessToken) {
+				if (localStorage.getItem("currentUser")) {
+					localStorage.removeItem("currentUser");
 					localStorage.removeItem("access_token");
-					setStore({ accessToken: null, currentUser: null })
+					setStore({ accessToken: false, currentUser: false })
 					return "Usuario Deslogeado"
-				} else if (store.adminToken) {
+				} else if (localStorage.getItem("admin")) {
+					localStorage.removeItem("admin");
 					localStorage.removeItem("adminToken");
-					setStore({ adminToken: null, admin: null })
+					setStore({ adminToken: false, admin: false })
 					return "Administrador deslogeado"
 				}
 			},
 
 			// Acción para crear un evento
 			createEvent: async (eventData) => {
-				const adminToken = localStorage.getItem("adminToken")
-				const store = getStore()
+				let adminToken = localStorage.getItem("adminToken")
 				try {
 					const response = await fetch(process.env.BACKEND_URL + "/api/events", {
 						method: "POST",
@@ -251,8 +206,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 
 					const data = await response.json();
-					if (!response.ok) { console.log(data) }
-					setStore({ events: [...store.events, data.event] })
+					console.log(data)
 					return "Evento creado con éxito";
 				} catch (error) {
 					console.error("Error al crear el evento", error);
@@ -461,16 +415,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 						return false;
 					}
 
+					// Validamos que el estado sea "COMPLETED" antes de hacer la solicitud
 					if (state !== "COMPLETED") {
 						console.error("Purchase cannot be completed: Invalid status");
 						return false;
 					}
 
+					// Realizamos la solicitud POST al backend
 					const response = await fetch(process.env.BACKEND_URL + "/api/purchases", {
 						method: "POST",
 						headers: {
 							"Content-Type": "application/json",
-							"Authorization": `Bearer ${token}`
+							"Authorization": `Bearer ${token}` // Token JWT
 						},
 						body: JSON.stringify({
 							event_id: event_id,
@@ -480,18 +436,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 
 
-					const data = await response.json();
-					if (!response.ok) {
-						console.log("Purchase error:", data);
-						return false;
+					// Si la respuesta es exitosa, obtenemos la compra realizada
+					if (response.ok) {
+						const data = await response.json();
+						console.log("Purchase created successfully:", data);
+						return true;  // Indicamos que la compra fue exitosa
+					} else {
+						const errorData = await response.json();
+						console.error("Error creating purchase:", errorData.error);
+						return false;  // Indicamos que hubo un error en la compra
 					}
-					console.log("Purchase created successfully:", data);
-					return true;
-
-
 				} catch (error) {
 					console.error("Error in the purchase request:", error);
-					return false;
+					return false;  // Indicamos que hubo un error general
 				}
 			},
 
@@ -526,7 +483,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			deleteFavourite: async (favouriteID) => {
 				try {
-					const store = getStore()
+					const store=getStore()
 					const currentUserToken = localStorage.getItem("access_token")
 					const request = await fetch(process.env.BACKEND_URL + `/api/favourites/${favouriteID}`, {
 						method: "DELETE",

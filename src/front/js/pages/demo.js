@@ -14,8 +14,8 @@ export const Demo = () => {
     setActiveView(view);
   }
     useEffect(()=>{
-        if(!store.adminToken){navigate("/")}
-    },[store.adminToken])
+        if(!store.admin){navigate("/")}
+    },[store.admin])
     
  
 
