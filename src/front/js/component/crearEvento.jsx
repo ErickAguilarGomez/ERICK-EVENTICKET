@@ -1,9 +1,13 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import Swal from "sweetalert2"; 
 import '../../styles/creacion-evento.css';
 
 const CrearEvento = () => {
+    const preset_name = "yu1h90st";
+    const cloud_name = "drlqmol4c"; 
+    const [image, setImage] = useState(''); 
+    const [loading, setLoading] = useState(false);
     const { store, actions } = useContext(Context);
     const [formData, setFormData] = useState({
         title: "",
@@ -18,10 +22,6 @@ const CrearEvento = () => {
         administrator_id: store.admin.id
     });
 
-    const preset_name = "yu1h90st";
-    const cloud_name = "drlqmol4c"; 
-    const [image, setImage] = useState(''); 
-    const [loading, setLoading] = useState(false);
 
     const uploadImage = async (e) => {
         const files = e.target.files;
@@ -109,7 +109,7 @@ const CrearEvento = () => {
                 date: "",
                 price: "0",
                 time: "",
-                administrator_id: 1
+                administrator_id:store.admin.id
             })
             setImage("")
             } else {

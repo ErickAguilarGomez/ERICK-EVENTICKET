@@ -5,13 +5,9 @@ import '../../styles/lista-evento.css'
 
 const EventList = () => {
   const { store, actions } = useContext(Context);
-
-  useEffect(() => {
-    actions.getEvents(); // Llamar al fetch para obtener los eventos
-  }, []);
-
-  // Acceder a los eventos del store
   const events = store.events || [];
+  const info = ["Evento", "Lugar", "Fecha", "Aforo", "Precio", "Acciones"];
+
 
   const handleDelete = async (eventId) => {
     const success = await actions.deleteEvent(eventId);
@@ -22,22 +18,20 @@ const EventList = () => {
     }
   };
 
+  useEffect(() => {
+    actions.getEvents();
+  }, []);
+
 
   return (
     <div className="container mt-4">
       <h1 className="text-start">Lista de Eventos</h1>
       <hr />
-      {/* Aqui empieza el Contenedor responsivo de la tabla */}
       <div className="table-responsive">
         <table className="table table-striped table-hover">
           <thead className="table-primary">
             <tr>
-              <th scope="col">Evento</th>
-              <th scope="col">Lugar</th>
-              <th scope="col">Fecha</th>
-              <th scope="col">Aforo</th>
-              <th scope="col">Precio</th>
-              <th scope="col">Acciones</th>
+              {info.length > 0 && info.map((data, index) => <th key={index} scope="col">{data}</th>)}
             </tr>
           </thead>
           <tbody>

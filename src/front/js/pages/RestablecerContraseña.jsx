@@ -7,7 +7,7 @@ import { Context } from "../store/appContext";
 import Swal from 'sweetalert2';
 
 export const RestablecerContraseña = () => {
-    const {actions,store}=useContext(Context)
+    const {store,actions}=useContext(Context)
     const [formPass,setFormPass]=useState({
         new_password:"",
         verifiedPassword:""
@@ -58,13 +58,11 @@ export const RestablecerContraseña = () => {
         });
         return navigate("/Login");
     }
-
     useEffect(()=>{
-        if(store.admin!==false){navigate("/demo");}
-        if(store.currentUser!==false){navigate("/");}
-    },[store.admin,store.currentUser])
-
-
+        if(store.adminToken ){navigate("/demo")}
+        if(store.accessToken){navigate("/user")}
+    },[store.adminToken,store.accessToken])
+    
     return (
         <div className="container-fluid d-flex justify-content-center align-items-center vh-100">
            {token? <div className="col-12 col-md-8 col-lg-6 col-xl-4">

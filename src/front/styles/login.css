@@ -19,3 +19,16 @@
     margin-bottom: 20px;
     color: #40414a;
 }
+
+
+.linkTo{
+    color: #0d6efd;
+    text-decoration: none;
+}
+
+.linkTo:hover {
+    color: #0a58ca;
+}
+.linkTo:visited{
+    color: #0d6efd;
+}

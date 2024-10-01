@@ -191,6 +191,19 @@ def log_in_admin():
     except Exception as e:
         return jsonify({"message": str(e)}), 500
 
+@api.route("/datadmin", methods=["GET"])
+@jwt_required()
+def get_datadmin():
+    try:
+        current_admin = get_jwt_identity()
+        admin = Administrator.query.get(current_admin)
+        if not admin:
+            return jsonify({"message": "unauthorized"}), 404
+
+        return jsonify({"data": admin.serialize()}), 200
+    except Exception as e:
+        return jsonify({"message": str(e)}), 500
+
 
 # MOSTRAR USUARIOS REGISTRADOS (ADMIN)
 @api.route("/getusers", methods=["GET"])
@@ -398,13 +411,13 @@ def read_tickets_by_user():
         user_logged = User.query.get(current_user_id)
 
         if administrator:
-            tickets = Ticket.query.all()  # Si es administrador, obtiene todos los tickets
+            tickets = Ticket.query.all()
             if tickets:
                 return jsonify([ticket.serialize() for ticket in tickets]), 200
             else:
                 return jsonify({"error": "No tickets found"}), 404
         elif user_logged:
-            tickets = Ticket.query.filter_by(user_id=current_user_id).all()  # Solo obtiene los tickets del usuario autenticado
+            tickets = Ticket.query.filter_by(user_id=current_user_id).all()
             if tickets:
                 return jsonify([ticket.serialize() for ticket in tickets]), 200
             else:
@@ -667,3 +680,6 @@ def modify_password():
     except Exception as e:
         return jsonify({"Error":f"Just Happened this error:{e}"})
     
+@api.route('/admin/')
+def admin_login():
+    return jsonify({"message":"Bienvenido al panel de administración"}), 200

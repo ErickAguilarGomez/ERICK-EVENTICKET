@@ -5,16 +5,13 @@ import "../../styles/CardEvento.css";
 
 export const CardEvento = () => {
   const { store, actions } = useContext(Context);
+  const events = store.events || [];
 
   const handleAddFavourite = (event_id) => {
-    actions.addFavourite(event_id); // Llama a la acción addFavourite del flux
+    actions.addFavourite(event_id);
   };
 
-  useEffect(() => {
-    actions.getEvents();
-  }, []);
 
-  const events = store.events || [];
 
   return (
     <div className="container py-2">

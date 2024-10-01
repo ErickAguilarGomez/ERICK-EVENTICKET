@@ -25,7 +25,7 @@ export const DetalleEvento = () => {
   };
 
   const handleBuy = () => {
-    if(!store.currentUser){
+    if(!store.accessToken){
       return alert("logeate para realizar la compra")
     }
 
@@ -108,14 +108,9 @@ export const DetalleEvento = () => {
   }, [state]);
 
 
-
-  if (!event) {
-    return null;
-  }
-
-
   return (
-    <div className="container pt-5">
+    <>
+    {event?<div className="container pt-5">
       <h1 className="text-center display-1 text-info-emphasis text-primary fw-semibold">{event.title}</h1>
       <div className="d-flex justify-content-start">
         <p className="text-center text-secondary me-3"><i className="fas fa-map-marker-alt text-primary"></i> {event.location}</p>
@@ -141,17 +136,7 @@ export const DetalleEvento = () => {
             <button className="carousel-control-next" type="button" data-bs-target="#carouselDemo" data-bs-slide="next">
               <span className="carousel-control-next-icon green"></span>
             </button>
-            {/* <div className="carousel-indicators spacing">
-              <button type="button" className="active" data-bs-target="#carouselDemo" data-bs-slide-to="0">
-                <img src="https://i0.wp.com/iopera.es/wp-content/uploads/2018/10/Tosca-de-Puccini-desde-Helsinki-desde-la-%C3%93pera-Nacional-de-Finlandia-v%C3%ADdeo-de-la-%C3%B3pera-en-la-representaci%C3%B3n-en-directo-del-7-de-octubre-de-2018-giacomo.jpg" />
-              </button>
-              <button type="button" data-bs-target="#carouselDemo" data-bs-slide-to="1">
-                <img src="https://oldbcn.com/images/agenda/musica/tosca.jpg" />
-              </button>
-              <button type="button" data-bs-target="#carouselDemo" data-bs-slide-to="2">
-                <img src="https://www.operaworld.es/wp-content/uploads/2023/02/Captura-de-Pantalla-2023-02-27-a-las-22.56.56.png" />
-              </button>
-            </div> */}
+           
           </div>
           <br />
           <br />
@@ -242,6 +227,7 @@ export const DetalleEvento = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div>:<div className="container pt-5 min-vh-100"><h1 className="text-danger ">Cargando evento.... </h1></div>}
+    </>
   );
 };
