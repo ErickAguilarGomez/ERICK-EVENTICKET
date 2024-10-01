@@ -154,3 +154,13 @@
   display: flex;
   justify-content: space-between;
 }
+
+.w-small-100{
+  width: auto;
+}
+
+@media (min-width: 620px) {
+  .w-small-100 {
+    width: 100% !important;
+  }
+}

@@ -31,13 +31,15 @@ export const Carrusel = () => {
   })
   return (
     <div className="swiper mySwiper my-3">
-      <div className="swiper-wrapper">
-        {images.length > 0 && images.map((image,index) =>
-          <div className="swiper-slide" key={index}>
-            <img className="img-carrusel" src={image}></img>
-          </div>
-        )}
-      </div>
+      {images.length > 0 && (
+        <div className="swiper-wrapper">
+          {images.map((image, index) => (
+            <div className="swiper-slide" key={index}>
+              <img className="img-carrusel" src={image} alt={`image-${index}`} />
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
