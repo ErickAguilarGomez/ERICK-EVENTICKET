@@ -36,9 +36,9 @@ export const Login = () => {
     };
 
     useEffect(()=>{
-        if(store.admin!==false){navigate("/demo");}
-        if(store.currentUser!==false){navigate("/");}
-    },[store.admin,store.currentUser])
+        if(store.adminToken ){navigate("/demo")}
+        if(store.accessToken){navigate("/user")}
+    },[store.adminToken,store.accessToken])
 
 
     return (

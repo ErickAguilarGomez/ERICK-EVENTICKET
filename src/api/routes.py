@@ -191,6 +191,19 @@ def log_in_admin():
     except Exception as e:
         return jsonify({"message": str(e)}), 500
 
+@api.route("/datadmin", methods=["GET"])
+@jwt_required()
+def get_datadmin():
+    try:
+        current_admin = get_jwt_identity()
+        admin = Administrator.query.get(current_admin)
+        if not admin:
+            return jsonify({"message": "unauthorized"}), 404
+
+        return jsonify({"data": admin.serialize()}), 200
+    except Exception as e:
+        return jsonify({"message": str(e)}), 500
+
 
 # MOSTRAR USUARIOS REGISTRADOS (ADMIN)
 @api.route("/getusers", methods=["GET"])
@@ -667,3 +680,6 @@ def modify_password():
     except Exception as e:
         return jsonify({"Error":f"Just Happened this error:{e}"})
     
+@api.route('/admin/')
+def admin_login():
+    return jsonify({"message":"Bienvenido al panel de administración"}), 200

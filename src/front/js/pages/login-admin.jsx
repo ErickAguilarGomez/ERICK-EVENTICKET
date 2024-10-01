@@ -37,9 +37,10 @@ export const LoginAdmin = () => {
     };
 
     useEffect(()=>{
-        if(store.admin!==false){navigate("/demo");}
-        if(store.currentUser!==false){navigate("/");}
+        if(store.admin){navigate("/demo");}
+        if(store.currentUser){navigate("/");}
     },[store.admin,store.currentUser])
+
 
     return (
         <div style={{

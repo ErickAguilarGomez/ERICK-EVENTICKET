@@ -25,7 +25,7 @@ export const DetalleEvento = () => {
   };
 
   const handleBuy = () => {
-    if(!store.currentUser){
+    if(!store.accessToken){
       return alert("logeate para realizar la compra")
     }
 
