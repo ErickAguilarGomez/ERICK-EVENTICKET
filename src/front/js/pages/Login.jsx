@@ -14,7 +14,7 @@ export const Login = () => {
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    // Manejar el envío del formulario
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const success = await actions.loginUser(email, password);
