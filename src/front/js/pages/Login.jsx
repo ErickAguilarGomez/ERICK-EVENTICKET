@@ -65,7 +65,7 @@ export const Login = () => {
                 icon: 'error',
                 title: 'Error al iniciar sesión',
                 text: 'Verifica tus credenciales.',
-                confirmButtonText: 'Ok'
+                confirmButtonText: 'Ok '
             });
         }
     }
