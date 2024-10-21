@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import getState from "./flux.js";
-import { useLocation } from "react-router-dom";
 
 export const Context = React.createContext(null);
 

@@ -28,12 +28,12 @@ export const ConfirmacionCompra = () => {
       !eventDate || 
       quantity === undefined || 
       totalAmount === undefined || 
-      !store.accessToken || 
+      !store.currentUser || 
       store.admin
     ) {
       navigate("/");
     }
-  }, [eventName, eventLocation, eventTime, eventDate, quantity, totalAmount, store, store.accessToken, store.adminToken]);
+  }, [eventName, eventLocation, eventTime, eventDate, quantity, totalAmount, store, store.currentUser, store.admin]);
 
   return (
     <div className="container py-5 d-flex align-items-center justify-content-center min-vh-100 ">

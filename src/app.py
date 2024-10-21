@@ -75,7 +75,8 @@ def sitemap():
     if ENV == "development":
         return generate_sitemap(app)
     return send_from_directory(static_file_dir, 'index.html')
-# any other endpoint will try to serve it like a static file
+
+# any other endpoint will try to serve it like a static file   .
 
 
 @app.route('/<path:path>', methods=['GET'])
